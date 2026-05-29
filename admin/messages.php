@@ -1,7 +1,7 @@
 <?php
 // admin/messages.php - View contact messages
 require_once '../config/db.php';
-if(!isLoggedIn()) redirect('login.php');
+if(!isLoggedIn()) redirect('admin/login.php');
 $messages = $pdo->query("SELECT * FROM contacts ORDER BY id DESC")->fetchAll();
 include 'includes/admin_header.php';
 ?>

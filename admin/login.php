@@ -2,7 +2,7 @@
 require_once '../config/db.php';
 
 if(isLoggedIn()) {
-    redirect('index.php');
+    redirect('admin/index.php');
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_id'] = $user['id'];
         $_SESSION['admin_username'] = $user['username'];
-        redirect('index.php');
+        redirect('admin/index.php');
     } else {
         $error = "Invalid credentials";
     }

@@ -133,3 +133,69 @@ INSERT INTO `gallery` (`title`, `image`, `category`) VALUES
 ('Processing Activities', 'gallery-processing.jpg', 'process');
 
 COMMIT;
+-- Feature expansion: customer dashboard, tracking, payments, reviews, blog, notifications and SEO
+CREATE TABLE IF NOT EXISTS `customers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(120) NOT NULL,
+  `email` varchar(120) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `address` text DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `orders`
+  ADD COLUMN IF NOT EXISTS `customer_id` int(11) DEFAULT NULL AFTER `id`,
+  ADD COLUMN IF NOT EXISTS `payment_status` enum('unpaid','paid','failed') DEFAULT 'unpaid' AFTER `payment_method`,
+  ADD COLUMN IF NOT EXISTS `payment_reference` varchar(100) DEFAULT NULL AFTER `payment_status`,
+  ADD COLUMN IF NOT EXISTS `order_notes` text DEFAULT NULL AFTER `payment_reference`,
+  MODIFY COLUMN `order_status` enum('pending','processing','out_for_delivery','completed','cancelled') DEFAULT 'pending';
+
+CREATE TABLE IF NOT EXISTS `notifications_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel` enum('email','sms') NOT NULL,
+  `recipient` varchar(150) NOT NULL,
+  `subject` varchar(200) DEFAULT NULL,
+  `message` text NOT NULL,
+  `status` enum('queued','sent','failed') DEFAULT 'queued',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `reviews` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `customer_name` varchar(120) NOT NULL,
+  `customer_email` varchar(120) NOT NULL,
+  `rating` tinyint(1) NOT NULL DEFAULT 5,
+  `review` text NOT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `blog_posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL,
+  `slug` varchar(220) NOT NULL,
+  `excerpt` text DEFAULT NULL,
+  `content` longtext NOT NULL,
+  `meta_title` varchar(200) DEFAULT NULL,
+  `meta_description` varchar(255) DEFAULT NULL,
+  `status` enum('draft','published') DEFAULT 'draft',
+  `published_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `reviews` (`customer_name`, `customer_email`, `rating`, `review`, `status`) VALUES
+('Amina Yusuf', 'amina@example.com', 5, 'Fresh eggs and healthy birds delivered exactly as promised.', 'approved'),
+('Daniel Musa', 'daniel@example.com', 5, 'The order tracking made it easy to know when my poultry supplies would arrive.', 'approved');
+
+INSERT INTO `blog_posts` (`title`, `slug`, `excerpt`, `content`, `meta_title`, `meta_description`, `status`, `published_at`) VALUES
+('How to Keep Noiler Birds Healthy in Their First Month', 'keep-noiler-birds-healthy-first-month', 'Simple brooding, feeding and hygiene tips for strong Noiler birds.', 'Start with a clean brooder, steady warmth, fresh water and quality starter feed. Watch your birds daily for weak movement, poor appetite or unusual droppings. Good ventilation and dry litter reduce stress and disease pressure.', 'Noiler Bird Care Tips for the First Month', 'Learn practical first-month Noiler bird care tips from Sewwer Poultry.', 'published', NOW()),
+('Best Practices for Storing Fresh Poultry Eggs', 'best-practices-storing-fresh-poultry-eggs', 'Protect egg freshness with clean handling, cool storage and careful transport.', 'Collect eggs with clean hands, store them in trays with the pointed end downward, and keep them away from heat and strong smells. Rotate stock so older trays are sold or used first.', 'How to Store Fresh Poultry Eggs', 'Fresh egg storage tips for homes, restaurants and retailers.', 'published', NOW());

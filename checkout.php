@@ -2,6 +2,12 @@
 // checkout.php - Checkout Page
 require_once 'config/db.php';
 $page_title = 'Checkout';
+$customer = null;
+if (isCustomerLoggedIn()) {
+    $customerStmt = $pdo->prepare('SELECT * FROM customers WHERE id = ?');
+    $customerStmt->execute([currentCustomerId()]);
+    $customer = $customerStmt->fetch();
+}
 include 'includes/header.php';
 
 $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
@@ -22,24 +28,36 @@ if(empty($cart_items)) {
                 <form action="place_order.php" method="POST" class="checkout-form">
                     <div class="mb-3">
                         <label>Full Name *</label>
-                        <input type="text" name="name" class="form-control" required>
+                        <input type="text" name="name" value="<?php echo $customer['name'] ?? ''; ?>" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label>Email Address *</label>
-                        <input type="email" name="email" class="form-control" required>
+                        <input type="email" name="email" value="<?php echo $customer['email'] ?? ''; ?>" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label>Phone Number *</label>
-                        <input type="tel" name="phone" class="form-control" required>
+                        <input type="tel" name="phone" value="<?php echo $customer['phone'] ?? ''; ?>" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label>Delivery Address *</label>
-                        <textarea name="address" class="form-control" rows="3" required></textarea>
+                        <textarea name="address" class="form-control" rows="3" required><?php echo $customer['address'] ?? ''; ?></textarea>
                     </div>
                     <div class="mb-3">
                         <label>Order Notes (Optional)</label>
                         <textarea name="notes" class="form-control" rows="2"></textarea>
                     </div>
+                    <div class="mb-3">
+                        <label>Payment Method</label>
+                        <select name="payment_method" class="form-control">
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Cash on Delivery">Cash on Delivery</option>
+                            <option value="Online Payment">Online Payment</option>
+                        </select>
+                        <small class="text-muted">Online payment creates a secure payment step after order confirmation.</small>
+                    </div>
+                    <?php if(!isCustomerLoggedIn()): ?>
+                        <p class="small text-muted">Want order history? <a href="customer_register.php">Create an account</a> before checkout.</p>
+                    <?php endif; ?>
                     <button type="submit" class="btn btn-primary btn-lg w-100">Place Order</button>
                 </form>
             </div>
@@ -57,7 +75,7 @@ if(empty($cart_items)) {
                         <strong>Total:</strong>
                         <strong>₦<?php echo number_format($total, 2); ?></strong>
                     </div>
-                    <p class="mt-3 text-muted small">Payment via Bank Transfer will be provided after order confirmation.</p>
+                    <p class="mt-3 text-muted small">Choose bank transfer, cash on delivery, or online payment at checkout.</p>
                 </div>
             </div>
         </div>
