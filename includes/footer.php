@@ -20,6 +20,9 @@
                 <h4>Quick Links</h4>
                 <ul class="footer-links">
                     <li><a href="<?php echo SITE_URL; ?>products.php">Shop</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>track_order.php">Track Order</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>reviews.php">Reviews</a></li>
+                    <li><a href="<?php echo SITE_URL; ?>blog.php">Poultry Tips Blog</a></li>
                     <li><a href="<?php echo SITE_URL; ?>about.php">About Us</a></li>
                     <li><a href="<?php echo SITE_URL; ?>contact.php">Bulk Orders</a></li>
                     <li><a href="<?php echo SITE_URL; ?>trust.php">Our Standards</a></li>

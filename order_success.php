@@ -17,6 +17,7 @@ unset($_SESSION['order_success']);
             <h2>Thank You for Your Order!</h2>
             <p>Your order number: <strong><?php echo $order_number; ?></strong></p>
             <p>You will receive a confirmation call within 24 hours for payment and delivery details.</p>
+            <p><a href="track_order.php?order_number=<?php echo urlencode($order_number); ?>" class="btn btn-outline-primary">Track this Order</a></p>
             <p>For urgent inquiries, contact us via WhatsApp.</p>
             <a href="products.php" class="btn btn-primary mt-3">Continue Shopping</a>
         <?php else: ?>

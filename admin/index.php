@@ -1,13 +1,15 @@
 <?php
 // admin/index.php - Admin Dashboard
 require_once '../config/db.php';
-if(!isLoggedIn()) redirect('login.php');
+if(!isLoggedIn()) redirect('admin/login.php');
 
 // Get counts
 $product_count = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
 $order_count = $pdo->query("SELECT COUNT(*) FROM orders")->fetchColumn();
 $message_count = $pdo->query("SELECT COUNT(*) FROM contacts WHERE is_read=0")->fetchColumn();
 $pending_orders = $pdo->query("SELECT COUNT(*) FROM orders WHERE order_status='pending'")->fetchColumn();
+$low_stock = $pdo->query("SELECT COUNT(*) FROM products WHERE stock_quantity <= 10")->fetchColumn();
+$review_count = $pdo->query("SELECT COUNT(*) FROM reviews WHERE status='pending'")->fetchColumn();
 
 include 'includes/admin_header.php';
 ?>
@@ -24,6 +26,8 @@ include 'includes/admin_header.php';
                 <div class="col-md-3 mb-3"><div class="card text-white bg-success"><div class="card-body"><h5>Total Orders</h5><h2><?php echo $order_count; ?></h2></div></div></div>
                 <div class="col-md-3 mb-3"><div class="card text-white bg-warning"><div class="card-body"><h5>Unread Messages</h5><h2><?php echo $message_count; ?></h2></div></div></div>
                 <div class="col-md-3 mb-3"><div class="card text-white bg-danger"><div class="card-body"><h5>Pending Orders</h5><h2><?php echo $pending_orders; ?></h2></div></div></div>
+                <div class="col-md-3 mb-3"><div class="card text-white bg-secondary"><div class="card-body"><h5>Low Stock</h5><h2><?php echo $low_stock; ?></h2></div></div></div>
+                <div class="col-md-3 mb-3"><div class="card text-white bg-info"><div class="card-body"><h5>Pending Reviews</h5><h2><?php echo $review_count; ?></h2></div></div></div>
             </div>
             
             <h3>Recent Orders</h3>
