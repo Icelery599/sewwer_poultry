@@ -77,3 +77,48 @@ a:hover { color: var(--brand-navy-blue); }
 .alert-warning { background-color: rgba(var(--brand-orange-rgb), .14); border-color: rgba(var(--brand-orange-rgb), .45); color: #6a3a00; }
 @media (max-width: 767px) { .order-timeline, .farm-stats { grid-template-columns: 1fr 1fr; } .section-padding { padding: 45px 0; } .hero-section { padding: 60px 0; } }
 @media (max-width: 575px) { .farm-stats { grid-template-columns: 1fr; } }
+
+/* Mobile-first refinements */
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+img, iframe, video { max-width: 100%; height: auto; }
+.navbar .container { gap: .75rem; }
+.navbar-brand { display: inline-flex; align-items: center; min-width: 0; white-space: normal; }
+.navbar-brand img { width: auto; max-height: 50px; }
+.navbar-collapse { max-height: calc(100vh - 76px); overflow-y: auto; }
+.product-card, .feature-card, .feature-box, .trust-card { display: flex; flex-direction: column; gap: .5rem; }
+.product-card .btn { margin-top: .25rem; }
+.table { width: 100%; }
+
+@media (max-width: 991px) {
+    .navbar .nav-link { padding: .75rem 0; border-bottom: 1px solid rgba(var(--brand-navy-blue-rgb), .08); }
+    .navbar .cart-icon { display: inline-flex; align-items: center; gap: .35rem; }
+    .hero-section { text-align: center; }
+    .hero-section .col-lg-6 + .col-lg-6 { margin-top: 2rem; }
+}
+
+@media (max-width: 767px) {
+    h1 { font-size: clamp(2rem, 9vw, 2.6rem); }
+    h2 { font-size: clamp(1.6rem, 7vw, 2rem); }
+    .brand-text { font-size: .95rem; }
+    .navbar-brand img { max-height: 42px; }
+    .hero-section { padding: 48px 0; }
+    .hero-section p { font-size: 1rem; }
+    .hero-section .btn { width: 100%; margin: .4rem 0 0 !important; }
+    .section-padding { padding: 40px 0; }
+    .product-card, .feature-card, .feature-box, .trust-card, .order-summary, .checkout-form, .stat-card, .certification-box { padding: 18px; }
+    .product-img { height: 210px; }
+    .summary-item, .summary-total { align-items: flex-start; }
+    .order-timeline, .farm-stats { grid-template-columns: 1fr 1fr; }
+    .order-timeline { gap: 16px 8px; }
+    .timeline-step p { font-size: .85rem; }
+    table.table { display: block; overflow-x: auto; white-space: nowrap; }
+    .whatsapp-float { right: 14px; bottom: 14px; width: 48px; height: 48px; font-size: 24px; }
+}
+
+@media (max-width: 575px) {
+    .container { padding-left: 1rem; padding-right: 1rem; }
+    .farm-stats, .order-timeline { grid-template-columns: 1fr; }
+    .product-img { height: 190px; }
+    .footer { padding-top: 36px; }
+}
