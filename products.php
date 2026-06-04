@@ -25,7 +25,9 @@ foreach($products as $product) {
         <div class="row">
             <?php foreach($items as $product): ?>
             <div class="col-md-6 col-lg-3 mb-4">
-                <div class="product-card">
+                <div class="product-card" style="display: grid;
+  /* Automatically fits as many 250px columns as will fit, then stretches them */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
                     <img src="assets/images/products/<?php echo $product['image']; ?>" class="product-img" alt="<?php echo $product['name']; ?>">
                     <h4><?php echo $product['name']; ?></h4>
                     <p class="product-desc"><?php echo substr($product['description'], 0, 80); ?>...</p>

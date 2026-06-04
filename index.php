@@ -60,9 +60,11 @@ $featured_products = $stmt->fetchAll();
     <div class="container">
         <h2 class="text-center mb-5">Our Premium Products</h2>
         <div class="row">
-            <?php foreach($featured_products as $product): ?>
+            <?php foreach($featured_products as $product):
+?>
             <div class="col-md-6 col-lg-3 mb-4">
                 <div class="product-card">
+                    
                     <img src="assets/images/products/<?php echo $product['image']; ?>" class="product-img" alt="<?php echo $product['name']; ?>">
                     <h4><?php echo $product['name']; ?></h4>
                     <p class="price">₦<?php echo number_format($product['price'], 2); ?></p>

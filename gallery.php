@@ -14,7 +14,7 @@ $gallery_images = $stmt->fetchAll();
         <div class="row">
             <?php foreach($gallery_images as $img): ?>
             <div class="col-md-4 col-lg-3 mb-4">
-                <div class="gallery-item">
+                <div class="gallery-item" style="height: 400px;">
                     <img src="assets/images/gallery/<?php echo $img['image']; ?>" alt="<?php echo $img['title']; ?>" class="img-fluid rounded">
                     <p class="mt-2 text-center"><?php echo $img['title']; ?></p>
                 </div>
