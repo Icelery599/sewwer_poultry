@@ -25,9 +25,7 @@ foreach($products as $product) {
         <div class="row">
             <?php foreach($items as $product): ?>
             <div class="col-md-6 col-lg-3 mb-4">
-                <div class="product-card" style="display: grid;
-  /* Automatically fits as many 250px columns as will fit, then stretches them */
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
+                <div class="product-card">
                     <img src="assets/images/products/<?php echo $product['image']; ?>" class="product-img" alt="<?php echo $product['name']; ?>">
                     <h4><?php echo $product['name']; ?></h4>
                     <p class="product-desc"><?php echo substr($product['description'], 0, 80); ?>...</p>
@@ -40,7 +38,7 @@ foreach($products as $product) {
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm w-100 mb-2">Add to Cart</button>
                     </form>
-                    <a href="https://wa.me/<?php echo WHATSAPP_NUMBER; ?>?text=I'm%20interested%20in%20<?php echo urlencode($product['name']); ?>%20(₦<?php echo $product['price']; ?>)" class="btn btn-success btn-sm w-100">Order via WhatsApp</a>
+                    <a href="https://wa.me/<?php echo WHATSAPP_NUMBER; ?>?text=I'm%20interested%20in%20<?php echo urlencode($product['name']); %>%20(₦<?php echo $product['price']; ?>)" class="btn btn-success btn-sm w-100">Chat on WhatsApp</a>
                 </div>
             </div>
             <?php endforeach; ?>
